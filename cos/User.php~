@@ -1,0 +1,13 @@
+<?php
+//Klasa reprezentująca użytkownika. W naszym wypadku jest tylko jeden, posiadający login test i hasło password.
+	class User {
+		protected $login, $password ;
+		//protected $text ;
+		function __construct () {
+		$this->login = "test" ;
+		$this->password = "haslo" ;
+	}
+
+
+}
+?>

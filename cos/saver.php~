@@ -1,0 +1,17 @@
+<?php
+try{
+//Mechanizm do zapisu danych do bazy. To co on robi, to dekoduje json zapisany w informacji co otrzymał i wprowadza je do bazy danych poprzez funkcje saveRec obiektu model2.
+	include "model2.php";
+	$baza = new model2;
+	$data = '';
+	if (isset($_POST["data"])) { $data = $_POST["data"] ; }
+	$obj  = json_decode($data) ;
+	$response = '';
+	if ( isset($obj->title) and isset($obj->author) and isset($obj->publisher)  ) {    
+            $response = $baza->saveRec($obj) ;
+	}
+	echo ( $response ? "Dodano rekord" : "Blad " ) ;
+}catch (Exception $e) {
+	echo 'Blad: [' . $e->getCode() . '] ' . $e->getMessage() ;
+}
+?>

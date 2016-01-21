@@ -1,0 +1,54 @@
+<?php
+
+class model2 {
+
+	static $dsn = 'sqlite:sql/baza.db' ;
+	protected static $db ;
+	private $sth ;
+	protected $objJson;
+	function __construct(){
+		self::$db = new PDO ( self::$dsn ) ;
+		self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION) ;
+	}
+
+	//Funkcja zbierająca wszystkie dane z bazy danych i zwracająca je.
+	public function listAll(){
+		$this->sth = self::$db->prepare('SELECT * FROM books') ;
+		$this->sth->execute() ;
+      		$result = $this->sth->fetchAll() ;
+      		return $result ;
+	}
+
+	//Funkcja zapisująca dany rekord do bazy, podany jako argument tej funkcji.
+   	public function saveRec($obj){
+      		$this->sth = self::$db->prepare('INSERT INTO books VALUES ( :title, :author, :publisher) ') ;
+      		$this->sth->bindValue(':title',$obj->title,PDO::PARAM_STR) ; 
+      		$this->sth->bindValue(':author',$obj->author,PDO::PARAM_STR) ; 
+      		$this->sth->bindValue(':publisher',$obj->publisher,PDO::PARAM_STR) ; 
+      		$resp = ( $this->sth->execute() ? 'true' : 'false' ) ;
+      		return $resp ; 
+   	}
+   
+   //Eksperymentalna funkcja testująca inny syntax, ale działająca tak samo jak saveRec normalne.
+   	public function saveRec2($obj){
+      		$this->sth = self::$db->prepare('INSERT INTO books VALUES ( :title, :author, :publisher) ') ;
+      		$this->sth->bindValue(':title',$obj['title'],PDO::PARAM_STR) ; 
+      		$this->sth->bindValue(':author',$obj['author'],PDO::PARAM_STR) ; 
+      		$this->sth->bindValue(':publisher',$obj['publisher'],PDO::PARAM_STR) ; 
+      		$resp = ( $this->sth->execute() ? 'true' : 'false' ) ;
+      		return $resp ; 
+   	}
+   
+   
+  //Funkcja czyszcząca całą bazę danych.
+   	public function clearDB(){
+    		try{
+			$this->sth = self::$db->prepare('DELETE FROM books ') ;
+			$this->sth->execute() ;
+	  	}catch (Exception $e) {
+  			echo 'Blad w model2: [' . $e->getCode() . '] ' . $e->getMessage() ;
+		}
+   	}
+}
+
+?>

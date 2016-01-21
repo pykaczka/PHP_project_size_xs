@@ -1,0 +1,11 @@
+<?php
+try{
+include "model2.php";
+//Bardzo proste kasowanie bazy danych, za pomocą obiektu klasy model2.
+$baza = new model2;
+$baza->clearDB();
+header("location:index.php?sub=baza");
+}catch (Exception $e) {
+echo 'Blad: [' . $e->getCode() . '] ' . $e->getMessage() ;
+}
+?>

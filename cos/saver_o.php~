@@ -1,0 +1,24 @@
+<?php
+//Mechanizm saver_o działa podobnie jak saver, ale czyni zapis dla więcej niż jednego rekordu, ze względu na odebranie paczki kliku rekordów z local storage.
+try{
+	include "model2.php";
+
+	$baza = new model2;
+	$data = '';
+	if (isset($_POST["data"])) { $data = "{\"tab\":[".$_POST["data"]."]}" ; }
+
+	$obj  = (array)json_decode($data,true) ;
+	$response = '';
+
+
+	foreach ($obj['tab'] as $value){
+		if ( isset($value['title']) and isset($value['author']) and isset($value['publisher'])  ) {    
+			$response = $baza->saveRec2($value) ;	
+		}
+	}
+
+	echo ( $response ? "Dodano rekord" : "Local storage pusty " ) ;
+}catch (Exception $e) {
+	echo 'Blad w saver_o, prawdopodobnie nie ma nic w local_storage: [' . $e->getCode() . '] ' . $e->getMessage() ;
+}
+?>

@@ -1,0 +1,20 @@
+<?php
+
+//Abstrakcyjna klasa kontroler, stworzona tylko po to żeby reszta klas miała pewną funkcjonalność i mogła po niej dziedziczyć (A tym samym uczestniczyć w procederze robionym przez index.php
+abstract class controller {
+   	function __construct() {}
+
+   	static function http404() {
+      		header('HTTP/1.1 404 Not Found') ;
+      		print '<!doctype html><html><head><title>404 Not Found</title></head><body><p>Invalid URL</p></body></html>' ;
+      		exit ;
+   	}
+
+   	function __call($name, $arguments) {
+        	self::http404();
+   	}
+}
+
+?>
+
+

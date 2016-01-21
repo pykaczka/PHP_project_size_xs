@@ -1,0 +1,1 @@
+<p>Witaj na stronie domowej mojego drugiego projektu. Projekt ten ma na celu stworzenie przeglądarkowej aplikacji offline, która umożliwia zalogowanie do serwisu, dodanie danych które można później wysłać do bazy danych.</p>

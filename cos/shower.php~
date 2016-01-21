@@ -1,0 +1,18 @@
+<?php
+try{
+include "model2.php";
+//Shower.php służy do wyświetlenia tego, co jest w bazie. Zwraca on to, co uda mu się odczytać z bazy + znaczniki html, tak, żeby to jakoś wyglądało. Rzeczy w bazie mają zakodowane znaczniki html, aby nie wykonać złośliwego kodu.
+$baza = new model2;
+$data = $baza->listAll();
+$response = '<table border="1">';
+if ($data) { 
+       foreach ( $data as $row ) { 
+       $response .= '<tr><td>'.htmlentities($row['title'],ENT_HTML5).'</td><td>'.htmlentities($row['author'],ENT_HTML5).'</td><td>'.htmlentities($row['publisher'],ENT_HTML5).'</td></tr>' ;
+    }}
+
+$response .='</table>';
+echo $response;
+}catch (Exception $e) {
+echo 'Blad w saver_o: [' . $e->getCode() . '] ' . $e->getMessage() ;
+}
+?>
